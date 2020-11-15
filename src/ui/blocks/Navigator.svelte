@@ -1,0 +1,122 @@
+<script>
+	import { writable } from 'svelte/store';
+	import { push, location } from 'svelte-spa-router';
+	import { ResponsiveUtility, CSSUtility } from '../../resources/utilities';
+	import Button from './Button.svelte';
+	import Hamburger from './Hamburger.svelte';
+
+	// @export
+	export let isActiveWritable = writable(false);
+
+	/** @type Record<string, string> */
+	export let routes = {};
+	export let backgroundColour = '--colour-background-primary';
+	export let barToppingWidth = 120;
+	export let barToppingHeight = '100%';
+	export let hamburgerProps = {};
+
+	const { currentBreakpointWritable } = ResponsiveUtility;
+	const routeKeys = Object.keys(routes);
+	const toppings = (() => {
+		const result = {};
+
+		routeKeys.forEach((route) => {
+			result[routes[route]] = () => href(route);
+		});
+
+		return result;
+	})();
+
+	$: isSalad = !($currentBreakpointWritable < ResponsiveUtility.Breakpoints.TABLET);
+
+	function href(destination) {
+		push(destination);
+
+		isActiveWritable.set(false);
+
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
+		});
+	}
+</script>
+
+<component
+	class='{!isSalad ? 'hamburger' : 'salad'}'
+	style='
+		--colour-background: {CSSUtility.parse(backgroundColour)};
+	'
+>
+	{#if !isSalad}
+		<Hamburger
+			{toppings}
+			{...hamburgerProps}
+		/>
+	{:else}
+		<container
+			class='bar'
+			style='
+				--width: calc({CSSUtility.parse(barToppingWidth)} * {routeKeys.length});
+				--height: {CSSUtility.parse(barToppingHeight)};
+			'
+		>
+			<container
+				class='content'
+			>
+				{#each routeKeys as routeKey}
+					<Button
+						on:click={() => href(routeKey)}
+						icon=''
+						backgroundColour='{
+							routeKey === $location
+								? '--colour-background-primary'
+								: '#0000'
+						}'
+						textColour='--colour-text-primary'
+						hoverColour='--colour-background-secondary'
+						rippleColour='--colour-text-secondary'
+						width='100%'
+						
+					>
+						{routes[routeKey]}
+					</Button>
+				{/each}
+			</container>
+		</container>
+	{/if}
+</component>
+
+<style>
+	component {
+		height: 100%;
+
+		display: grid;
+		align-items: center;
+		justify-items: center;
+	}
+
+	container.bar {
+		height: var(--height);
+		width: var(--width);
+	}
+
+	container.bar > .content {
+		height: 100%;
+		width: 100%;
+
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: auto;
+		grid-auto-flow: column;
+
+		justify-items: center;
+		align-items: center;
+
+		/* gap: 14px; */
+	}
+
+	component.salad {
+		height: 100%;
+	}
+</style>
