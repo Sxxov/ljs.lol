@@ -20,6 +20,20 @@ export class ScrollUtility {
         });
         ScrollUtility.isDisabled = false;
     }
+    static toY(px) {
+        window.scrollTo({
+            top: px,
+            left: 0,
+            behavior: 'smooth',
+        });
+    }
+    static toX(px) {
+        window.scrollTo({
+            top: 0,
+            left: px,
+            behavior: 'smooth',
+        });
+    }
 }
 ScrollUtility.isDisabled = false;
 ScrollUtility.target = document.body;

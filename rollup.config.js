@@ -3,16 +3,15 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import copy from 'rollup-plugin-copy';
-import del from 'rollup-plugin-delete';
+import copy from 'rollup-plugin-copy-assets';
 import postcss from 'rollup-plugin-postcss';
 import postcssImport from 'postcss-import';
 import childProcess from 'child_process';
 import json from '@rollup/plugin-json';
 import babel from '@rollup/plugin-babel';
-import ignore from 'rollup-plugin-ignore';
 import cssnano from 'cssnano';
 
+// eslint-disable-next-line no-undef
 const production = !process.env.ROLLUP_WATCH;
 const onwarn = (message, warn) => {
 	const ignored = {
@@ -53,28 +52,27 @@ export default () => [{
 	},
 	onwarn,
 	watch,
+	inlineDynamicImports: false,
 	plugins: [
-		del({
-			targets: [
-				// delete raw files because apparently there's conflict
-				// with the copy plugin
-				'public/raw/*',
-			],
-			hook: 'load',
-		}),
+		// copy({
+		// 	targets: [
+		// 		{
+		// 			src: 'src/index.html',
+		// 			dest: 'public',
+		// 		},
+		// 		{
+		// 			src: 'src/raw',
+		// 			dest: 'public',
+		// 		},
+		// 	],
+		// 	// hook: 'load',
+		// }),
 
 		copy({
-			targets: [
-				{
-					src: 'src/index.html',
-					dest: 'public',
-				},
-				{
-					src: 'src/raw',
-					dest: 'public',
-				},
+			assets: [
+				'src/index.html',
+				// 'src/raw',
 			],
-			// hook: 'load',
 		}),
 
 		postcss({
@@ -107,7 +105,7 @@ export default () => [{
 			// we'll extract any component CSS out into
 			// a separate file - better for performance
 			css: (css) => {
-				css.write('public/bundle.css');
+				css.write('bundle.css');
 			},
 			// preprocess: sveltePreprocessor(),
 			accessors: true,

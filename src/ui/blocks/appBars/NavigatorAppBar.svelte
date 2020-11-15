@@ -4,15 +4,17 @@
 	import Navigator from '../Navigator.svelte';
 
 	// @export
-	export let baseHeightWritable = writable(0);
+	export let expandedHeightWritable = writable(0);
 	export let scrolledHeightWritable = writable(0);
+	export let baseHeightWritable = writable(0);
 
 	export let routes = null;
 </script>
 
 <ScrollableAppBar
-	bind:baseHeightWritable
+	bind:expandedHeightWritable
 	bind:scrolledHeightWritable
+	bind:baseHeightWritable
 	{...$$restProps}
 >
 	<container>

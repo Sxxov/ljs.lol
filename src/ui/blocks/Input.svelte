@@ -183,6 +183,7 @@
 
 		font-size: var(--font-size);
 		line-height: 0.9em;
+		letter-spacing: -0.08em;
 		color: var(--colour-text);
 
 		transition: 0.2s var(--ease-slow-slow);

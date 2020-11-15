@@ -86,17 +86,34 @@ export default {
 				info: {
 					prefix: {
 						FETCH: 'FETCH',
+						INFO: 'INFO',
 						LOAD: 'LOAD',
 						WARN: 'WARN',
 						ERROR: 'ERROR',
 					},
+					INTRO: 'Try typing "?" to get more information on commands.',
 				},
-				warn: {
-					COMMAND_NOT_RECOGNIZED: '%1 is not a valid thing.',
-				},
+				warn: {},
 				error: {
+					COMMAND_NOT_RECOGNIZED: '%1 is not a valid thing.',
 					FAKE: 'UncaughtException, message bubbled from %1:\n\tSyntaxError: Invalid or unexpected token\n\tat wrapSafe (internal/modules/cjs/loader.js:1116:16)',
 				},
+				ask: {},
+			},
+		},
+		blocks: {
+			common: {
+				info: {},
+				warn: {},
+				error: {},
+				ask: {},
+			},
+			image: {
+				info: {},
+				warn: {
+					NO_SRC: 'No src prop provided',
+				},
+				error: {},
 				ask: {},
 			},
 		},

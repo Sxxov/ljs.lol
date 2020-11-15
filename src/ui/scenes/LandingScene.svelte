@@ -16,8 +16,10 @@
 	import NavigatorAppBar from '../blocks/appBars/NavigatorAppBar.svelte';
 	import Terminal from '../components/Terminal.svelte';
 	import { WindowUtility } from '../../resources/utilities';
-	import { navigatorAppBarBaseHeight } from '../../resources/stores';
-import Collage from '../components/Collage.svelte';
+	import { navigatorAppBarExpandedHeight } from '../../resources/stores';
+	import Collage from '../components/Collage.svelte';
+	import CallToAction from '../components/CallToAction.svelte';
+	import Footer from '../components/Footer.svelte';
 
 	const { innerWritable } = WindowUtility;
 	$: inner = $innerWritable;
@@ -57,7 +59,7 @@ import Collage from '../components/Collage.svelte';
 	// }, 500);
 
 	const terminalHeightWritable = writable(0);
-	$: terminalHeightWritable.set(inner.height - $navigatorAppBarBaseHeight);
+	$: terminalHeightWritable.set(inner.height - $navigatorAppBarExpandedHeight);
 </script>
 
 <Scene
@@ -70,6 +72,10 @@ import Collage from '../components/Collage.svelte';
 	/>
 
 	<Collage />
+
+	<CallToAction />
+
+	<Footer />
 	<!-- <container
 		style='
 			display: flex;

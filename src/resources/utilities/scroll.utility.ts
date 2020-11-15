@@ -30,4 +30,20 @@ export class ScrollUtility {
 
 		ScrollUtility.isDisabled = false;
 	}
+
+	public static toY(px: number): void {
+		window.scrollTo({
+			top: px,
+			left: 0,
+			behavior: 'smooth',
+		});
+	}
+
+	public static toX(px: number): void {
+		window.scrollTo({
+			top: 0,
+			left: px,
+			behavior: 'smooth',
+		});
+	}
 }

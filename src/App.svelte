@@ -3,21 +3,28 @@
 	import { writable } from 'svelte/store';
 	import Router from 'svelte-spa-router';
 	import { wrap } from 'svelte-spa-router/wrap';
-	import { navigatorAppBarScrolledHeight, navigatorAppBarBaseHeight } from './resources/stores';
+	import { navigatorAppBarScrolledHeight, navigatorAppBarExpandedHeight, navigatorAppBarBaseHeight } from './resources/stores';
 	import LandingScene from './ui/scenes/LandingScene.svelte';
 	import strings from './resources/strings';
 	import { Compatibler } from './core/compatibler';
 	import RenderScene from './ui/scenes/RenderScene.svelte';
-	import { ScrollUtility } from './resources/utilities';
+	import { LogUtility, ScrollUtility } from './resources/utilities';
 	import NavigatorAppBar from './ui/blocks/appBars/NavigatorAppBar.svelte';
+	import ContactScene from './ui/scenes/ContactScene.svelte';
+	import AboutScene from './ui/scenes/AboutScene.svelte';
+	import PortfolioScene from './ui/scenes/PortfolioScene.svelte';
 
 	Compatibler.throw(Compatibler.test());
 
+	LogUtility.addToContext(window);
+
 	let mainDomContent = null;
 	let scrolledHeightWritable = writable(0);
+	let expandedHeightWritable = writable(0);
 	let baseHeightWritable = writable(0);
 
 	$: navigatorAppBarScrolledHeight.set($scrolledHeightWritable);
+	$: navigatorAppBarExpandedHeight.set($expandedHeightWritable);
 	$: navigatorAppBarBaseHeight.set($baseHeightWritable);
 
 	// const GlobalProps = {
@@ -32,9 +39,9 @@
 	];
 	const Routes = {
 		[Paths[0]]: LandingScene,
-		[Paths[1]]: RenderScene,
-		[Paths[2]]: RenderScene,
-		[Paths[3]]: RenderScene,
+		[Paths[1]]: AboutScene,
+		[Paths[2]]: ContactScene,
+		[Paths[3]]: PortfolioScene,
 	};
 	window.RouteNames = {
 		[Paths[0]]: strings.common.routes.info.HOME,
@@ -69,8 +76,10 @@
 >
 	<NavigatorAppBar
 		bind:scrolledHeightWritable
+		bind:expandedHeightWritable
 		bind:baseHeightWritable
 		routes={RouteNames}
+		backgroundColour='--colour-background-secondary'
 	/>
 	<Router
 		routes={Routes}

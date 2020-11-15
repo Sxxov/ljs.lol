@@ -69,7 +69,7 @@
 							}}
 							icon='arrow_forward'
 							backgroundColour='--colour-background-primary'
-							textColour='--colour-accent-primary'
+							textColour='--colour-text-primary'
 							hoverColour='--colour-background-secondary'
 							rippleColour='--colour-accent-primary'
 							width='100%'

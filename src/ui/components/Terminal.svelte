@@ -42,6 +42,14 @@
 		outputLines = [...outputLines, { tag: info.prefix.LOAD, string, colour: '--colour-ok-primary' }];
 	}
 
+	function pushInfo(string) {
+		outputLines = [...outputLines, { tag: info.prefix.INFO, string, colour: '--colour-background-primary' }];
+	}
+
+	function pushWarn(string) {
+		outputLines = [...outputLines, { tag: info.prefix.WARN, string, colour: '--colour-warn-primary' }];
+	}
+
 	function pushError(string) {
 		outputLines = [...outputLines, { tag: info.prefix.ERROR, string, colour: '--colour-error-primary' }];
 	}
@@ -96,18 +104,19 @@
 					200,
 					() => pushLoad(initModuleName),
 					500,
+					() => pushInfo(info.INTRO),
 					// () => pushError(error.FAKE.replace('%1', initModuleName))
 				];
 			case 'echo':
 				return [parameters.join(' ')];
 			case 'exit':
-				return [warn.COMMAND_NOT_RECOGNIZED.replace('%1', 'escape')];
+				return [() => pushError(error.COMMAND_NOT_RECOGNIZED.replace('%1', 'escape'))];
 			case 'cls':
 				return [() => { outputDomContent.textContent = ''; }];
 			case '':
 				return [''];
 			default:
-				return [warn.COMMAND_NOT_RECOGNIZED.replace('%1', program)];
+				return [() => pushError(error.COMMAND_NOT_RECOGNIZED.replace('%1', program))];
 		}
 	}
 
@@ -144,6 +153,8 @@
 				default:
 			}
 		}
+
+		pushDefault('\n');
 	}
 
 	function encodeString(string) {
@@ -190,11 +201,12 @@
 		isInAnimated={false}
 		isOutAnimated={false}
 		isFloatingInverted={true}
-		backgroundColour='transparent'
-		hoverColour='transparent'
+		backgroundColour='--colour-text-primary'
+		hoverColour='--colour-text-primary'
 		width='100%'
 		height='100%'
 		roundness='0'
+		depth='3'
 	>
 		<container
 			class='content'
@@ -238,7 +250,9 @@
 					{/each}
 				</container>
 			</container>
-			<container>
+			<container
+				class='input'
+			>
 				<Input 
 					label='>>>'
 					backgroundColour='--colour-text-secondary'
@@ -276,7 +290,7 @@
 	component {
 		width: var(--width);
 
-		/* padding: var(--padding); */
+		padding: var(--padding);
 		box-sizing: border-box;
 	}
 
@@ -293,7 +307,7 @@
 
 	container.content string {
 		color: var(--colour-background-secondary);
-		line-height: 2em;
+		line-height: 1em;
 		white-space: pre-wrap;
 	}
 
@@ -301,7 +315,7 @@
 		padding: var(--padding);
 	}
 
-	container.bar {
+	/* container.bar {
 		height: auto;
 		width: 100%;
 
@@ -309,9 +323,9 @@
 		justify-content: flex-end;
 		align-items: center;
 
-		/* border-radius: var(--roundness) var(--roundness) 0 0; */
+		border-radius: var(--roundness) var(--roundness) 0 0;
 
-		/* background: var(--colour-text-secondary); */
+		background: var(--colour-text-secondary);
 	}
 
 	container.bar .title {
@@ -320,5 +334,5 @@
 		user-select: none;
 		padding: 0 24px;
 		box-sizing: border-box;
-	}
+	} */
 </style>

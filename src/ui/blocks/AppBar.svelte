@@ -7,8 +7,9 @@
 	import { dropIn as dropInRaw, dropOut as dropOutRaw, noop } from '../../core/transitioner';
 
 	// @export
-	export const baseHeightWritable = writable(0);
+	export const expandedHeightWritable = writable(0);
 	export let computedPaddingWritable = writable(0);
+	export let baseHeightWritable = writable(0);
 
 	export let title = null;
 	export let appBarPadding = '--padding';
@@ -17,6 +18,7 @@
 	export let contentPaddingWritable = writable(contentPadding);
 	export let isInAnimated = false;
 	export let isOutAnimated = false;
+	export let backgroundColour = '--colour-background-secondary';
 
 	const dropIn = isInAnimated ? dropInRaw : noop;
 	const dropOut = isOutAnimated ? dropOutRaw : noop;
@@ -51,6 +53,11 @@
 		baseHeightWritable.set(
 			Number.parseFloat(
 				appBarContainerDomContentComputedStyle.height,
+			),
+		);
+		expandedHeightWritable.set(
+			Number.parseFloat(
+				appBarContainerDomContentComputedStyle.height,
 			)
 			+ $computedPaddingWritable * 2,
 		);
@@ -64,6 +71,7 @@
 		style='
 			--app-bar-padding: {CSSUtility.parse($appBarPaddingWritable)};
 			--content-padding: {CSSUtility.parse($contentPaddingWritable)};
+			--colour-background: {CSSUtility.parse(backgroundColour)};
 		'
 		in:dropIn
 		out:dropOut
@@ -88,7 +96,7 @@
 	</container>
 
 	<Spacer
-		heightWritable={baseHeightWritable}
+		heightWritable={expandedHeightWritable}
 	/>
 </component>
 
@@ -107,7 +115,7 @@
 		grid-template-columns: min-content auto;
 		grid-template-rows: auto;
 
-		background: var(--colour-background-secondary);
+		background: var(--colour-background);
 	}
 
 	container.content.right {

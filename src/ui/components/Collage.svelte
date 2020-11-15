@@ -1,6 +1,9 @@
 <script>
 	import hull from 'hull.js';
 	import { WindowUtility } from '../../resources/utilities';
+	import CollageColour from './collage/CollageColour.svelte';
+	import CollageImage from './collage/CollageImage.svelte';
+	import CollageText from './collage/CollageText.svelte';
 
 	const { innerWritable } = WindowUtility;
 
@@ -8,6 +11,8 @@
 
 	let columnsNumber = null;
 	let rowsNumber = null;
+	let currentRenderedColumnsNumber = null;
+	let currentRenderedRowsNumber = null;
 	/** @typedef {[number, number]} coordinate */
 	/** @type coordinate */
 	let randomCoordinateMatrix = null;
@@ -20,7 +25,36 @@
 	/** @type string[] */
 	const zIndexCSS = [];
 
+	$: (columnsNumber = Math.max(Math.floor($innerWritable.width / 150), 3)), render();
+	$: (rowsNumber = Math.floor($innerWritable.height / 150) * 3), render();
+
 	render();
+
+	/** @type {(CollageImage|CollageColour|CollageText)[]} */
+	const COLLAGE_MATERIALS = [
+		CollageImage,
+		CollageImage,
+		CollageColour,
+		CollageText,
+	];
+
+	function getIncreasinglyDitheredArray(array) {
+		const result = [];
+
+		for (let i = 0, l = array.length; i < l; ++i) {
+			if (Math.random() > i / l) {
+				result[i] = array[i];
+			}
+		}
+
+		console.log(result);
+
+		return result;
+	}
+
+	function getRandomCollageMaterial() {
+		return COLLAGE_MATERIALS[Math.floor(Math.random() * (COLLAGE_MATERIALS.length))];
+	}
 
 	/**
 	 * @returns {{
@@ -227,11 +261,13 @@
 	}
 
 	function render() {
-		columnsNumber = Math.floor($innerWritable.width / 100);
-		rowsNumber = Math.floor($innerWritable.height / 100);
-
 		if (!columnsNumber
 			|| !rowsNumber) {
+			return;
+		}
+
+		if (currentRenderedColumnsNumber === columnsNumber
+			&& currentRenderedRowsNumber === rowsNumber) {
 			return;
 		}
 
@@ -239,6 +275,7 @@
 		randomCoordinateMatrix = matrix;
 		randomCoordinateMatrixIndexes = matrixIndexes;
 
+		// console.log('randomCoordinateMatrixIndexes:', randomCoordinateMatrixIndexes);
 		randomCoordinateMatrixIndexes.forEach((randomCoordinateMatrixIndex, i) => {
 			const maximumAndMinimumCoordinate = getMaximumAndMinimumCoordinate(randomCoordinateMatrixIndex);
 			const grid = {
@@ -287,7 +324,7 @@
 				let iii = 0;
 				for (let ii = 0, l = rawPolygon.length; ii < l; ii++) {
 					const item = rawPolygon[ii];
-					console.log(seen[item]);
+					// console.log(seen[item]);
 
 					if (seen[item] === undefined) {
 						seen[item] = 1;
@@ -299,7 +336,7 @@
 					seen[item] += 1;
 
 					if (seen[item] >= 4) {
-						console.log(out.splice(out.indexOf(item), 1));
+						// console.log(out.splice(out.indexOf(item), 1));
 						--iii;
 					}
 				}
@@ -324,6 +361,10 @@
 					.join(' '),
 			);
 
+			gridCSS.splice(randomCoordinateMatrixIndexes.length, gridCSS.length);
+			clipPathCSS.splice(randomCoordinateMatrixIndexes.length, clipPathCSS.length);
+			zIndexCSS.splice(randomCoordinateMatrixIndexes.length, zIndexCSS.length);
+
 			gridCSS[i] = `grid-column: ${grid.column}; grid-row: ${grid.row}`;
 			clipPathCSS[i] = `clip-path: polygon(${arrangedPolygonVerticiesString})`;
 			zIndexCSS[i] = `z-index: ${
@@ -336,15 +377,29 @@
 					) * 2,
 				) + 20
 			}`;
+
+			currentRenderedColumnsNumber = columnsNumber;
+			currentRenderedRowsNumber = rowsNumber;
 		});
 
-		console.log(gridCSS, clipPathCSS);
+		// console.log(gridCSS, clipPathCSS);
 	}
 </script>
 
-<component>
-	{#each gridCSS as gridCSSPart, i}
-		<div style='{zIndexCSS[i]};{gridCSSPart};{clipPathCSS[i]};background: #{(i * 3).toString().padStart(3, '0')}'></div>
+<component style='
+		--grid-template-rows: repeat({rowsNumber}, 1fr); 
+		--grid-template-columns: repeat({columnsNumber}, 1fr);
+	'>
+	{#each gridCSS as _, i}
+		<container style='
+			{zIndexCSS[i]};
+			{gridCSS[i]};
+			{clipPathCSS[i]};
+		'>
+			<svelte:component
+				this={getRandomCollageMaterial()}
+			></svelte:component>
+		</container>
 	{/each}
 </component>
 
@@ -352,6 +407,11 @@
 	component {
 		display: grid;
 		width: 100%;
-		height: 100vh;
+		height: 300vh;
+
+		user-select: none;
+
+		grid-template-columns: var(--grid-template-columns);
+		grid-template-rows: var(--grid-template-rows);
 	}
 </style>

@@ -4,8 +4,9 @@
 	import { CSSUtility } from '../../../resources/utilities';
 
 	// @export
-	export let baseHeightWritable = writable(0);
+	export let expandedHeightWritable = writable(0);
 	export let scrolledHeightWritable = writable(0);
+	export let baseHeightWritable = writable(0);
 
 	export let mininumPadding = 8;
 
@@ -38,8 +39,8 @@
 	);
 
 	$: computedPaddingWritable = appBar?.computedPaddingWritable;
-	$: baseHeightWritable = appBar?.baseHeightWritable;
-	$: scrolledHeightWritable.set($baseHeightWritable - $scrollYWritable);
+	$: expandedHeightWritable = appBar?.expandedHeightWritable;
+	$: scrolledHeightWritable.set($expandedHeightWritable - $scrollYWritable);
 	$: appBarPaddingWritable.set(`calc(var(--padding) - (${$scrollYWritable}px / 2)) var(--padding)`);
 </script>
 
@@ -49,6 +50,7 @@
 	<AppBar
 		contentPadding='{CSSUtility.parse(mininumPadding)} 0'
 		bind:this={appBar}
+		bind:baseHeightWritable
 		{appBarPaddingWritable}
 		{...$$restProps}
 	>

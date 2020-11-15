@@ -20,7 +20,7 @@
 		Shadow.apply(depth, componentDomContent);
 
 		if (!src) {
-			window.warn(strings.ui.Image.warn.NO_SRC, 'Image');
+			window.warn(strings.ui.blocks.image.warn.NO_SRC, 'Image');
 
 			return;
 		}

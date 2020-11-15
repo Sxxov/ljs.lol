@@ -172,7 +172,7 @@ module.exports = {
 		'no-use-before-define': ['off'],
 		'no-continue': ['off'],
 		'import/prefer-default-export': ['off'],
-		'import/extensions': ['warn', 'never', { svelte: 'always', json: 'always' }],
+		'import/extensions': ['warn', 'never', { svelte: 'always', json: 'always', css: 'always' }],
 		'no-await-in-loop': ['off'],
 	},
 	plugins: [
