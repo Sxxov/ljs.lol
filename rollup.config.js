@@ -10,6 +10,8 @@ import childProcess from 'child_process';
 import json from '@rollup/plugin-json';
 import babel from '@rollup/plugin-babel';
 import cssnano from 'cssnano';
+import imagemin from 'rollup-plugin-imagemin';
+import del from 'rollup-plugin-delete';
 
 // eslint-disable-next-line no-undef
 const production = !process.env.ROLLUP_WATCH;
@@ -46,9 +48,10 @@ export default () => [{
 	input: 'src/svelte.bootstrap.js',
 	output: {
 		sourcemap: true,
-		format: 'iife',
+		format: 'es',
 		name: 'app',
-		file: 'public/svelte.bootstrap.js',
+		dir: 'public',
+		// file: 'public/svelte.bootstrap.js',
 	},
 	onwarn,
 	watch,
@@ -67,6 +70,13 @@ export default () => [{
 		// 	],
 		// 	// hook: 'load',
 		// }),
+
+		production && del({
+			targets: [
+				'public',
+			],
+			suppressErrors: true,
+		}),
 
 		copy({
 			assets: [
@@ -89,6 +99,10 @@ export default () => [{
 		json({
 			compact: production,
 			preferConst: true,
+		}),
+
+		imagemin({
+			preserveTree: 'src',
 		}),
 
 		// ignore([

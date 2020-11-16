@@ -2,7 +2,8 @@
 	import { writable } from 'svelte/store';
 	import { navigatorAppBarExpandedHeight } from '../../resources/stores';
 	import { CSSUtility, WindowUtility } from '../../resources/utilities';
-import Button from '../blocks/Button.svelte';
+	import { dropIn } from '../../core/transitioner';
+	import Button from '../blocks/Button.svelte';
 
 	import Scene from '../blocks/Scene.svelte';
 	import Footer from '../components/Footer.svelte';
@@ -90,6 +91,7 @@ import Button from '../blocks/Button.svelte';
 			<a 
 				class='email'
 				href='mailto://HELLO@ljs.lol'
+				in:dropIn
 			>
 				<heading>
 					HELLO@ljs.lol
@@ -97,6 +99,7 @@ import Button from '../blocks/Button.svelte';
 			</a>
 			<container
 				class='minigame over'
+				in:dropIn
 			>
 				<!-- <string
 					class='worthy'
@@ -115,6 +118,7 @@ import Button from '../blocks/Button.svelte';
 			</container>
 		{:else}
 			<heading
+				in:dropIn
 				class='minigame'
 				on:click={damage}
 			>
@@ -122,6 +126,7 @@ import Button from '../blocks/Button.svelte';
 			</heading>
 			<container
 				class='minigame'
+				in:dropIn
 			>
 				<!-- {#each $currentLevelContentWritable as content, i}
 					<heading
@@ -138,7 +143,7 @@ import Button from '../blocks/Button.svelte';
 					class='worthy'
 				>
 					wanna talk?
-					prove thy worthiness.
+					defeat me, prove thy worthiness.
 				</string>
 			</container>
 		{/if}
@@ -186,7 +191,12 @@ import Button from '../blocks/Button.svelte';
 		grid-column: 1;
 		/* margin-block-start: 0; */
 
+		white-space: pre-line;
+		text-align: center;
+
 		user-select: none;
+
+		line-height: 1.2rem;
 	}
 
 	/* container.email > container.minigame:not(.over) {

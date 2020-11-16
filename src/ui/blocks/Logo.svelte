@@ -20,7 +20,7 @@
 			});
 		}}
 		svg='
-		<svg height=24px width=24px xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 749" fill={CSSUtility.parse(colour)}>
+		<svg height=20px width=24px xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 749" fill={CSSUtility.parse(colour)}>
 			<g id="Layer_2" data-name="Layer 2">
 				<rect x="750" width="250" height="250"/>
 			</g>

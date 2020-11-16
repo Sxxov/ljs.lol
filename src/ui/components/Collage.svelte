@@ -1,5 +1,7 @@
 <script>
 	import hull from 'hull.js';
+import { onDestroy, onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 	import { WindowUtility } from '../../resources/utilities';
 	import CollageColour from './collage/CollageColour.svelte';
 	import CollageImage from './collage/CollageImage.svelte';
@@ -8,35 +10,65 @@
 	const { innerWritable } = WindowUtility;
 
 	window.addEventListener('resize', render);
+	window.addEventListener('resize', updateComponentDomContentBoundingClientRectWritable);
+
+	onMount(() => {
+		updateComponentDomContentBoundingClientRectWritable();
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('resize', render);
+		window.removeEventListener('resize', updateComponentDomContentBoundingClientRectWritable);
+	});
+
+	export let isImageExcluded = false;
 
 	let columnsNumber = null;
 	let rowsNumber = null;
 	let currentRenderedColumnsNumber = null;
 	let currentRenderedRowsNumber = null;
+	let componentDomContent = null;
+	const componentDomContentBoundingClientRectWritable = writable({});
 	/** @typedef {[number, number]} coordinate */
 	/** @type coordinate */
 	let randomCoordinateMatrix = null;
 	/** @type coordinate[][] */
 	let randomCoordinateMatrixIndexes = null;
 	/** @type string[] */
-	const gridCSS = [];
+	let gridCSS = [];
 	/** @type string[] */
 	const clipPathCSS = [];
 	/** @type string[] */
 	const zIndexCSS = [];
 
-	$: (columnsNumber = Math.max(Math.floor($innerWritable.width / 150), 3)), render();
-	$: (rowsNumber = Math.floor($innerWritable.height / 150) * 3), render();
+	$: (
+		columnsNumber = Math.floor(
+			$componentDomContentBoundingClientRectWritable.width / 150,
+		)
+	), render();
+	$: (
+		rowsNumber = Math.floor(
+			$innerWritable.height / 150,
+		) * 3
+	), render();
 
 	render();
 
 	/** @type {(CollageImage|CollageColour|CollageText)[]} */
-	const COLLAGE_MATERIALS = [
-		CollageImage,
-		CollageImage,
-		CollageColour,
-		CollageText,
-	];
+	const COLLAGE_MATERIALS = isImageExcluded
+		? [
+			CollageColour,
+			CollageText,
+		] : [
+			CollageImage,
+			CollageImage,
+			CollageColour,
+			CollageText,
+		];
+
+	function updateComponentDomContentBoundingClientRectWritable() {
+		componentDomContentBoundingClientRectWritable.set(componentDomContent?.getBoundingClientRect());
+	}
 
 	function getIncreasinglyDitheredArray(array) {
 		const result = [];
@@ -46,8 +78,6 @@
 				result[i] = array[i];
 			}
 		}
-
-		console.log(result);
 
 		return result;
 	}
@@ -263,6 +293,7 @@
 	function render() {
 		if (!columnsNumber
 			|| !rowsNumber) {
+			gridCSS = [];
 			return;
 		}
 
@@ -386,7 +417,9 @@
 	}
 </script>
 
-<component style='
+<component 
+	bind:this={componentDomContent}
+	style='
 		--grid-template-rows: repeat({rowsNumber}, 1fr); 
 		--grid-template-columns: repeat({columnsNumber}, 1fr);
 	'>

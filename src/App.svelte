@@ -2,12 +2,11 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import Router from 'svelte-spa-router';
-	import { wrap } from 'svelte-spa-router/wrap';
+	import SmoothScroll from 'smoothscroll-for-websites';
 	import { navigatorAppBarScrolledHeight, navigatorAppBarExpandedHeight, navigatorAppBarBaseHeight } from './resources/stores';
 	import LandingScene from './ui/scenes/LandingScene.svelte';
 	import strings from './resources/strings';
 	import { Compatibler } from './core/compatibler';
-	import RenderScene from './ui/scenes/RenderScene.svelte';
 	import { LogUtility, ScrollUtility } from './resources/utilities';
 	import NavigatorAppBar from './ui/blocks/appBars/NavigatorAppBar.svelte';
 	import ContactScene from './ui/scenes/ContactScene.svelte';
@@ -17,6 +16,11 @@
 	Compatibler.throw(Compatibler.test());
 
 	LogUtility.addToContext(window);
+	SmoothScroll({
+		animationTime: 500,
+		touchpadSupport: false,
+		pulseScale: 6,
+	});
 
 	let mainDomContent = null;
 	let scrolledHeightWritable = writable(0);
@@ -79,7 +83,7 @@
 		bind:expandedHeightWritable
 		bind:baseHeightWritable
 		routes={RouteNames}
-		backgroundColour='--colour-background-secondary'
+		backgroundColour='--colour-background-primary'
 	/>
 	<Router
 		routes={Routes}

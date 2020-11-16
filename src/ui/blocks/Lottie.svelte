@@ -1,7 +1,13 @@
 <script>
 	import lottie from 'lottie-web';
 	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 	import { CSSUtility } from '../../resources/utilities';
+
+	// @export
+	export let animationCurrentFrameWritable = writable(0);
+	/** @type {ReturnType<typeof lottie.loadAnimation>} */
+	export let animation = null;
 
 	export let src = '';
 	export let animationData = null;
@@ -11,10 +17,18 @@
 	export let overrideColour = null;
 
 	let containerDomContent = null;
-	export let animation = null;
+	let isAnimationCurrentFrameBeingUpdatedInternally = false;
+	let isAnimationCurrentFrameBeingUpdatedExternally = false;
 
 	onMount(async () => {
-		const json = animationData || (!src ? {} : await (await fetch(src)).json());
+		const json = await Promise.resolve(animationData)
+			|| (
+				!src
+					? {}
+					: await (
+						await fetch(src)
+					).json()
+			);
 
 		animation = lottie.loadAnimation({
 			container: containerDomContent,
@@ -23,7 +37,26 @@
 			loop: true,
 			...options,
 		});
+
+		animation.addEventListener('enterFrame', () => {
+			if (isAnimationCurrentFrameBeingUpdatedExternally) {
+				isAnimationCurrentFrameBeingUpdatedExternally = false;
+	
+				return;
+			}
+
+			isAnimationCurrentFrameBeingUpdatedInternally = true;
+
+			animationCurrentFrameWritable.set(animation.currentRawFrame);
+		});
 	});
+
+	$: isAnimationCurrentFrameBeingUpdatedInternally
+		? isAnimationCurrentFrameBeingUpdatedInternally = false
+		: (
+			animation?.goToAndStop($animationCurrentFrameWritable),
+			(isAnimationCurrentFrameBeingUpdatedExternally = true)
+		);
 </script>
 
 <component

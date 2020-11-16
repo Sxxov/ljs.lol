@@ -75,13 +75,21 @@
 		'
 		in:dropIn
 		out:dropOut
-	>
+	>		
+		<container
+			class='slot'
+		>
+			<slot name='background' />
+		</container>
+
 		<container
 			class='content left'
 		>
 			{#if !title}
 				<container class='logo'>
-					<Logo />
+					<Logo
+						colour='--colour-text-primary'
+					/>
 				</container>
 			{:else}
 				<heading>{title}</heading>
@@ -91,7 +99,7 @@
 		<container 
 			class='content right'
 		>
-			<slot></slot>
+			<slot />
 		</container>
 	</container>
 
@@ -101,6 +109,18 @@
 </component>
 
 <style>
+	container.slot {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		height: 100%;
+		width: 100%;
+
+		position: absolute;
+		overflow: hidden;
+	}
+
 	container.app-bar {
 		padding: var(--app-bar-padding);
 

@@ -1,29 +1,52 @@
 <script>
-	import { onMount, createEventDispatcher } from 'svelte';
+	import { writable } from 'svelte/store';
+	import { onMount, createEventDispatcher, onDestroy } from 'svelte';
 	import strings from '../../resources/strings';
 	import { Shadow } from '../../core/shadow';
 	import { CSSUtility } from '../../resources/utilities';
 
 	export let src;
 	export let alt = '';
-	export let width = '100%';
+
 	export let height = '100%';
+	export let width = '100%';
+
+	export let heightWritable = writable(height);
+	export let widthWritable = writable(width);
+
 	export let placeholderColour = '--colour-accent-primary';
 
+	(async () => {
+		if (!src.then) {
+			return;
+		}
+
+		let result = null;
+
+		result = await Promise.resolve(src);
+
+		if (result.default != null) {
+			realSrc = result.default;
+
+			return;
+		}
+
+		realSrc = result;
+	})();
+
+	let realSrc = '';
 	let imgDomContent = null;
 	let componentDomContent = null;
 	let isActive = false;
 	const depth = 0;
 	const dispatch = createEventDispatcher();
 
+	if (!src) {
+		window.warn(strings.ui.blocks.image.warn.NO_SRC, 'Image');
+	}
+
 	onMount(() => {
 		Shadow.apply(depth, componentDomContent);
-
-		if (!src) {
-			window.warn(strings.ui.blocks.image.warn.NO_SRC, 'Image');
-
-			return;
-		}
 	
 		if (imgDomContent.readyState === 4) {
 			onLoad();
@@ -34,6 +57,10 @@
 		imgDomContent.addEventListener('load', onLoad);
 	});
 
+	onDestroy(() => {
+		imgDomContent.removeEventListener('load', onLoad);
+	});
+
 	function onLoad() {
 		isActive = true;
 		dispatch('load');
@@ -42,8 +69,8 @@
 
 <component
 	style='
-			--width: {CSSUtility.parse(width)};
-			--height: {CSSUtility.parse(height)};
+			--width: {CSSUtility.parse($widthWritable)};
+			--height: {CSSUtility.parse($heightWritable)};
 		'
 	bind:this={componentDomContent}
 >
@@ -54,7 +81,7 @@
 		'
 	></div>
 	<img
-		{src}
+		src={realSrc}
 		{alt}
 		class={isActive ? '' : 'inactive'}
 		draggable='false'
