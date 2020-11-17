@@ -84,6 +84,7 @@
 		bind:baseHeightWritable
 		routes={RouteNames}
 		backgroundColour='--colour-background-primary'
+		hoverColour='--colour-background-secondary'
 	/>
 	<Router
 		routes={Routes}
