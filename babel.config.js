@@ -6,7 +6,7 @@ module.exports = {
 				targets: {
 					esmodules: true,
 				},
-				corejs: '3.6.5',
+				corejs: '3.7.0',
 				useBuiltIns: 'usage',
 				shippedProposals: true,
 			},

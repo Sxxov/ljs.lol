@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "core-js": "^3.7.0",
     "globalthis": "^1.0.1",
     "hull.js": "^1.0.1",
     "lottie-web": "^5.7.4",
