@@ -11,6 +11,9 @@
 	/** @type Record<string, string> */
 	export let routes = {};
 	export let backgroundColour = '--colour-background-primary';
+	export let hoverColour = '--colour-background-secondary';
+	export let textColour = '--colour-text-primary';
+	export let rippleColour = '--colour-text-secondary';
 	export let barToppingWidth = 120;
 	export let barToppingHeight = '100%';
 	export let hamburgerProps = {};
@@ -70,12 +73,12 @@
 						icon=''
 						backgroundColour='{
 							routeKey === $location
-								? '--colour-background-primary'
+								? CSSUtility.parse(hoverColour)
 								: '#0000'
 						}'
-						textColour='--colour-text-primary'
-						hoverColour='--colour-background-secondary'
-						rippleColour='--colour-text-secondary'
+						textColour={CSSUtility.parse(textColour)}
+						hoverColour={CSSUtility.parse(hoverColour)}
+						rippleColour={CSSUtility.parse(rippleColour)}
 						width='100%'
 						
 					>

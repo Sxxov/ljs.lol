@@ -8,6 +8,11 @@
 	export let scrolledHeightWritable = writable(0);
 	export let baseHeightWritable = writable(0);
 
+	export let backgroundColour = '--colour-background-primary';
+	export let hoverColour = '--colour-background-secondary';
+	export let textColour = '--colour-text-primary';
+	export let rippleColour = '--colour-text-secondary';
+
 	export let routes = null;
 </script>
 
@@ -16,10 +21,15 @@
 	bind:scrolledHeightWritable
 	bind:baseHeightWritable
 	{...$$restProps}
+	{backgroundColour}
 >
 	<container>
 		<Navigator
 			{routes}
+			{backgroundColour}
+			{hoverColour}
+			{textColour}
+			{rippleColour}
 			hamburgerProps={{
 				buttonSize: 'calc(2rem + 32px)',
 				menuTopOffsetWritable: scrolledHeightWritable,
