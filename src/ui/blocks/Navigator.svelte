@@ -72,7 +72,7 @@
 						on:click={() => href(routeKey)}
 						icon=''
 						backgroundColour='{
-							routeKey === $location
+							routeKey === `${$location}/`.match(/.+?(?=\/)/)[0]
 								? CSSUtility.parse(hoverColour)
 								: '#0000'
 						}'

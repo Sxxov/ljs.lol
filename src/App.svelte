@@ -40,12 +40,14 @@
 		'/about',
 		'/contact',
 		'/portfolio',
+		'/portfolio/*',
 	];
 	const Routes = {
 		[Paths[0]]: LandingScene,
 		[Paths[1]]: AboutScene,
 		[Paths[2]]: ContactScene,
 		[Paths[3]]: PortfolioScene,
+		[Paths[4]]: PortfolioScene,
 	};
 	window.RouteNames = {
 		[Paths[0]]: strings.common.routes.info.HOME,

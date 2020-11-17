@@ -5,10 +5,9 @@
 
 	import Image from '../blocks/Image.svelte';
 	import Scene from '../blocks/Scene.svelte';
-import Spacer from '../blocks/Spacer.svelte';
-import CallToAction from '../components/CallToAction.svelte';
-import Collage from '../components/Collage.svelte';
-import Footer from '../components/Footer.svelte';
+	import CallToAction from '../components/CallToAction.svelte';
+	import Collage from '../components/Collage.svelte';
+	import Footer from '../components/Footer.svelte';
 
 	const { innerWritable } = WindowUtility;
 	$: inner = $innerWritable;

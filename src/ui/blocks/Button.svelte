@@ -158,7 +158,7 @@
 		<span class='content'>
 			{#if isText}
 				<icon>
-					{icon}
+					{icon ?? ''}
 				</icon>
 				<string>
 					<slot></slot>

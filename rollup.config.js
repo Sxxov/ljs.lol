@@ -12,6 +12,7 @@ import babel from '@rollup/plugin-babel';
 import cssnano from 'cssnano';
 import imagemin from 'rollup-plugin-imagemin';
 import del from 'rollup-plugin-delete';
+import mdx from './build/rollup-plugin-mdx';
 
 // eslint-disable-next-line no-undef
 const production = !process.env.ROLLUP_WATCH;
@@ -104,6 +105,8 @@ export default () => [{
 		imagemin({
 			preserveTree: 'src',
 		}),
+
+		mdx(),
 
 		// ignore([
 		// 	'path',
