@@ -69,17 +69,17 @@
 
 <component
 	style='
-			--width: {CSSUtility.parse($widthWritable)};
-			--height: {CSSUtility.parse($heightWritable)};
-		'
+		--width: {CSSUtility.parse($widthWritable)};
+		--height: {CSSUtility.parse($heightWritable)};
+	'
 	bind:this={componentDomContent}
 >
-	<div 
-		class='background'
+	<container
+		class='background {!isActive ? '' : 'inactive'}'
 		style='
-			--colour-placeholder: {placeholderColour};
+			--colour-placeholder: {CSSUtility.parse(placeholderColour)};
 		'
-	></div>
+	/>
 	<img
 		src={realSrc}
 		{alt}
@@ -97,7 +97,7 @@
 		width: var(--width);
 	}
 
-	.background {
+	container.background {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -106,6 +106,13 @@
 		width: var(--width);
 
 		background: var(--colour-placeholder);
+
+		opacity: 1;
+		visibility: visible;
+
+		transition: 0.3s var(--ease-slow-slow);
+
+		animation: flash 0.5s var(--ease-slow-slow) infinite alternate;
 	}
 
 	img {
@@ -135,8 +142,22 @@
 		box-shadow: var(--shadow);
 	}
 
+	container.background.inactive {
+		opacity: 0;
+		visibility: hidden;
+	}
+
 	img.inactive {
 		opacity: 0;
+	}
+
+	@keyframes flash {
+		0% {
+			opacity: 0.5;
+		}
+		100% {
+			opacity: 1;
+		}
 	}
 </style>
 
