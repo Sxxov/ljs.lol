@@ -76,7 +76,9 @@
 			/>
 		</container>
 
-		<Collage />
+		<Collage
+			minimumColumns='3'
+		/>
 	</container>
 
 	<CallToAction />
