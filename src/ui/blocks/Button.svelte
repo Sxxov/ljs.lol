@@ -136,6 +136,11 @@
 		--border-radius: {CSSUtility.parse(roundness)};
 	'
 >
+	<container
+		class='background'
+	>
+		<slot name='background' />
+	</container>
 	<button
 		bind:this={self.domContent}
 		style='
@@ -158,7 +163,9 @@
 		<span class='content'>
 			{#if isText}
 				<icon>
-					{icon ?? ''}
+					<slot name='icon'>
+						{icon ?? ''}
+					</slot>
 				</icon>
 				<string>
 					<slot></slot>
@@ -287,5 +294,12 @@
 	icon {
 		font-size: var(--icon-size);
 		line-height: var(--icon-size);
+	}
+
+	container.background {
+		height: 100%;
+		width: 100%;
+
+		position: absolute;
 	}
 </style>
