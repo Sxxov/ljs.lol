@@ -22,6 +22,7 @@ import { onDestroy, onMount } from 'svelte';
 	});
 
 	export let isImageExcluded = false;
+	export let minimumColumns = 0;
 
 	let columnsNumber = null;
 	let rowsNumber = null;
@@ -42,8 +43,11 @@ import { onDestroy, onMount } from 'svelte';
 	const zIndexCSS = [];
 
 	$: (
-		columnsNumber = Math.floor(
-			$componentDomContentBoundingClientRectWritable.width / 150,
+		columnsNumber = Math.max(
+			Math.floor(
+				$componentDomContentBoundingClientRectWritable.width / 150,
+			),
+			minimumColumns,
 		)
 	), render();
 	$: (
