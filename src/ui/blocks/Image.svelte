@@ -112,7 +112,7 @@
 
 		transition: 0.3s var(--ease-slow-slow);
 
-		animation: flash 0.5s var(--ease-slow-slow) infinite alternate;
+		animation: flash 0.3s var(--ease-slow-slow) infinite alternate;
 	}
 
 	img {
