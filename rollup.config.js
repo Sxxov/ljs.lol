@@ -111,7 +111,7 @@ export default () => [{
 
 		// is cached, so no need to run only on prod
 		{
-			load() {
+			buildStart() {
 				try {
 					execSync('"./src/raw/img/collage/seqscale.bat"');
 				} catch (err) {
