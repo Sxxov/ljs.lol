@@ -6,13 +6,18 @@ import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy-assets';
 import postcss from 'rollup-plugin-postcss';
 import postcssImport from 'postcss-import';
-import childProcess from 'child_process';
+import childProcess, { execSync } from 'child_process';
 import json from '@rollup/plugin-json';
 import babel from '@rollup/plugin-babel';
 import cssnano from 'cssnano';
 import imagemin from 'rollup-plugin-imagemin';
+import imageminJpegRecompress from 'imagemin-jpeg-recompress';
+import ImageminGM from 'imagemin-gm';
 import del from 'rollup-plugin-delete';
+// import url from '@rollup/plugin-url';
 import mdx from './build/rollup-plugin-mdx';
+
+const imageminGM = new ImageminGM();
 
 // eslint-disable-next-line no-undef
 const production = !process.env.ROLLUP_WATCH;
@@ -82,7 +87,7 @@ export default () => [{
 		copy({
 			assets: [
 				'src/index.html',
-				// 'src/raw',
+				'src/raw/pdf',
 			],
 		}),
 
@@ -102,11 +107,42 @@ export default () => [{
 			preferConst: true,
 		}),
 
+		mdx(),
+
+		// is cached, so no need to run only on prod
+		{
+			load() {
+				execSync('"./src/raw/img/collage/seqscale.bat"');
+			},
+		},
+
+		// url({
+		// 	include: '**/*.pdf',
+		// 	limit: 0,
+		// 	fileName: '[dirname][name][hash][extname]',
+		// 	sourceDir: 'src',
+		// 	destDir: 'public',
+		// }),
+
 		imagemin({
 			preserveTree: 'src',
+			plugins: production
+				? {
+					jpegRecompress: imageminJpegRecompress,
+					GMResize: imageminGM.resize.bind(imageminGM),
+				}
+				: {},
+			jpegRecompress: {
+				accurate: true,
+				target: 0.8,
+				min: 60,
+				max: 95,
+			},
+			GMResize: {
+				width: '>2048',
+				height: undefined,
+			},
 		}),
-
-		mdx(),
 
 		// ignore([
 		// 	'path',
