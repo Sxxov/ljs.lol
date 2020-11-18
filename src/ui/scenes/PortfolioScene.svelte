@@ -21,6 +21,11 @@
 					2: () => href('/ccts/2'),
 					3: () => href('/ccts/3'),
 				},
+				keyAndPreviewImageMap: {
+					1: import('../../raw/img/ccts/1/promo.jpg'),
+					2: import('../../raw/img/ccts/2/promo.jpg'),
+					3: import('../../raw/img/ccts/3/promo.jpg'),
+				},
 			},
 		}),
 		'/ccts/1': wrap({
@@ -32,13 +37,13 @@
 		'/ccts/2': wrap({
 			component: PortfolioViewer,
 			props: {
-				html: 'ccts/2',
+				html: import('../../raw/mdx/ccts/2.mdx'),
 			},
 		}),
 		'/ccts/3': wrap({
 			component: PortfolioViewer,
 			props: {
-				html: 'ccts/3',
+				html: import('../../raw/mdx/ccts/3.mdx'),
 			},
 		}),
 	};
@@ -47,28 +52,41 @@
 			component: PortfolioBrowser,
 			props: {
 				keyAndCallbackMap: {
-					1: () => href('/ccts/1'),
-					2: () => href('/ccts/2'),
-					3: () => href('/ccts/3'),
+					1: () => href('/photo/1'),
+					2: () => href('/photo/2'),
+					3: () => href('/photo/3'),
+					4: () => href('/photo/4'),
+				},
+				keyAndPreviewImageMap: {
+					1: import('../../raw/img/photo/1/promo.jpg'),
+					2: import('../../raw/img/photo/2/promo.jpg'),
+					3: import('../../raw/img/photo/3/promo.jpg'),
+					4: import('../../raw/img/photo/4/promo.jpg'),
 				},
 			},
 		}),
 		'/photo/1': wrap({
 			component: PortfolioViewer,
 			props: {
-				html: 'ccts/1',
+				html: import('../../raw/mdx/photo/1.mdx'),
 			},
 		}),
 		'/photo/2': wrap({
 			component: PortfolioViewer,
 			props: {
-				html: 'ccts/2',
+				html: import('../../raw/mdx/photo/2.mdx'),
 			},
 		}),
 		'/photo/3': wrap({
 			component: PortfolioViewer,
 			props: {
-				html: 'ccts/3',
+				html: import('../../raw/mdx/photo/3.mdx'),
+			},
+		}),
+		'/photo/4': wrap({
+			component: PortfolioViewer,
+			props: {
+				html: import('../../raw/mdx/photo/4.mdx'),
 			},
 		}),
 	};
@@ -77,8 +95,8 @@
 			component: PortfolioBrowser,
 			props: {
 				keyAndCallbackMap: {
-					CCTS: () => href('/ccts'),
-					PHOTO: () => href('/photo'),
+					ccts: () => href('/ccts'),
+					photo: () => href('/photo'),
 				},
 			},
 		}),
