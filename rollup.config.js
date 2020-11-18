@@ -112,7 +112,11 @@ export default () => [{
 		// is cached, so no need to run only on prod
 		{
 			load() {
-				execSync('"./src/raw/img/collage/seqscale.bat"');
+				try {
+					execSync('"./src/raw/img/collage/seqscale.bat"');
+				} catch (err) {
+					console.warn('Collage images aren\'t scaled. Probably running on netify, so make sure it\'s scaled locally first!');
+				}
 			},
 		},
 
