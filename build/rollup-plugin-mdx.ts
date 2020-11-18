@@ -2,239 +2,16 @@
 import { createFilter } from 'rollup-pluginutils';
 import path from 'path';
 import marked from 'marked';
+import { readFileSync } from 'fs';
 
-const STYLE = `
-mdx {
-	display: block;
-	height: 100%;
-	width: calc(100vw - 17px);
-	padding: var(--padding);
-	box-sizing: border-box;
-}
+const STYLE = readFileSync('./build/rollup-plugin-mdx/github-markdown.css').toString()
+	+ readFileSync('./build/rollup-plugin-mdx/theme.css').toString();
 
-mdx > *,
-mdx > blockquote {
-	padding-right: calc(var(--headerPadding) * 3);
-}
-
-mdx h1,
-mdx h2 {
-    border-bottom: 0px solid grey;
-}
-
-mdx h1::after,
-mdx h2::after {
-	content: "";
-	display: block;
-	
-	padding-bottom: 16px;
-    border-bottom: 1px solid #eaecef;
-}
-
-mdx h1,
-mdx h2,
-mdx h3,
-mdx h4,
-mdx h5,
-mdx h6 {
-	font-family: 'Space Mono', sans-serif, Apple Color Emoji, Segoe UI Emoji;
-	font-weight: 800;
-	letter-spacing: var(--titleLetterSpacing);
-}
-
-mdx h1 {
-	font-size: var(--titleFontSize);
-	line-height: var(--titleLineHeight);
-
-	margin-bottom: 36px;
-}
-
-mdx p {
-	font-family: 'Dank Mono', sans-serif, Apple Color Emoji, Segoe UI Emoji;
-	font-style: italic;
-	font-size: var(--descriptionFontSize);
-	text-align: justify;
-}
-
-mdx li {
-	font-family: 'Dank Mono', sans-serif, Apple Color Emoji, Segoe UI Emoji;
-	font-style: italic;
-	text-align: justify;
-	font-size: var(--descriptionFontSize);
-
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-mdx li > p, * > li > ul * {
-	font-size: unset !important;
-}
-
-mdx ol, 
-mdx ul {
-	padding-left: 1em;
-}
-
-mdx a {
-	color: grey;
-
-	display: block;
-
-	transform: matrix(1, 0, 0, 1, 0, 0);
-}
-
-mdx a:hover {
-	text-decoration: none;
-}
-
-mdx a::before {
-	content: "← ";
-}
-
-mdx a::after {
-	background: none repeat scroll 0 0 transparent;
-	left: 0;
-	bottom: -9px;
-	content: "";
-	display: block;
-	height: 1px;
-	position: absolute;
-	background: grey;
-	transition: width 0.3s var(--easeSlowSlow);
-	width: 0;
-}
-
-mdx a:hover::after {
-	width: 100%;
-}
-
-mdx x {
-	display: inline-flex;
-	flex-direction: column;
-	justify-content: center;
-	width: 100%;
-	/* min-height: 100%; */
-}
-
-/* firefox doesn't correctly set height %'s with columns */
-@-moz-document url-prefix() {
-	mdx x {
-	  	height: calc(100vh - 48px - 48px - 48px - var(--headerPadding) * 3);
-	}
-}
-
-/* mdx x.h-fixed {
-	height: 100%;
-} */
-
-mdx x.hs-left * {
-	align-self: flex-start;
-	text-align: left;
-}
-
-mdx x.hs-centre * {
-	align-self: center;
-	text-align: center;
-}
-
-mdx x.hs-right * {
-	align-self: flex-end;
-	text-align: end;
-}
-
-mdx x > * {
-	/* height: calc(100% - 16px); */
-	width: max-content;
-	max-width: 100%;
-	max-height: calc(100% - 16px);
-}
-
-mdx x.long {
-	display: inline-block;
-}
-
-mdx x.long p {
-	height: unset;
-}
-
-/* firefox treats 100% as the absolute container size even with display: inline-flex, 
-	instead of scaling them down like chrome,
-	but, it doesn't have the image-slicing & disappearing bugs in chrome,
-	so we can just make it so that it's in the correct position */
-@-moz-document url-prefix() {
-	mdx x > * {
-		height: unset;
-
-		margin-bottom: 0;
-		padding-bottom: 16px;
-	}
-}
-
-mdx img {
-	max-height: 100%;
-
-	object-fit: cover;
-}
-
-@media only screen and (max-width: 1024px), (max-height: 544px) {
-	mdx img {
-		padding-top: 48px;
-		padding-bottom: 48px;
-
-		max-height: 540px;
-
-		box-sizing: border-box;
-		
-		background-color: transparent;
-	}
-}
-
-mdx iframe {
-	padding-bottom: 24px;
-}
-
-@media only screen and (max-width: 1024px), (max-height: 544px) {
-	mdx x.hs-left *,
-	mdx x.hs-centre *,
-	mdx x.hs-right * {
-		align-self: unset;
-		text-align: unset;
-	}
-
-	mdx x.vs-left * {
-		align-self: flex-start;
-		text-align: left;
-	}
-	
-	mdx x.vs-centre * {
-		align-self: center;
-		text-align: center;
-	}
-	
-	mdx x.vs-right * {
-		align-self: flex-end;
-		text-align: end;
-	}
-
-	mdx x.vs-grid {
-		width: fit-content;
-		max-width: 100%;
-	}
-}
-
-@media only screen and (max-width: 1024px), (max-height: 544px) {
-	mdx bruh {
-		height: 96px;
-		display: block;
-	}
-}
-`;
-
+type Processor = (md: string) => string;
+type Processors = Record<string, Processor>;
 class MDX {
-	private static PREPROCESSORS = {
-		x(md: string): string {
+	private static PREPROCESSORS: Processors = {
+		x(md) {
 			const parts = md
 				.trim()
 				.split('\n');
@@ -301,7 +78,7 @@ class MDX {
 
 			return parsed;
 		},
-		br(md: string): string {
+		br(md) {
 			const parts = md
 				.trim()
 				.split('\n');
@@ -339,17 +116,88 @@ class MDX {
 			return parsed;
 		},
 	}
+	private static POSTPROCESSORS: Processors = {
+		heading(md) {
+			return md.replace(/h1/g, 'heading');
+		},
+		string(md) {
+			return md
+				.replace(/<p>/g, '<string>')
+				.replace(/<\/p>/g, '</string>');
+		},
+		liString(md) {
+			return md
+				.replace(/<li>/g, '<li><string>')
+				.replace(/<\/li>/g, '</string></li>');
+		},
+		tab(md) {
+			return md.replace(/ {4}/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+		},
+	}
 
-	public static preprocess(md: string): string {
-		let processedMd = md;
+	public static postprocess(string: string): string {
+		return MDX.process(string, MDX.POSTPROCESSORS);
+	}
 
-		Object.keys(MDX.PREPROCESSORS).forEach((key) => {
-			const preprocessor = MDX.PREPROCESSORS[key];
+	public static preprocess(string: string): string {
+		return MDX.process(string, MDX.PREPROCESSORS);
+	}
 
-			processedMd = preprocessor(processedMd);
+	public static process(string: string, processors: Processors): string {
+		let processedString = string;
+
+		Object.keys(processors).forEach((key) => {
+			const preprocessor = processors[key];
+
+			processedString = preprocessor(processedString);
 		});
 
-		return processedMd;
+		return processedString;
+	}
+
+	private static getImageSrcImports(string: string): {
+		processedString: string,
+		importStatements: string[],
+	} {
+		const imports: { name: string, src: string }[] = [];
+		// console.log(imports);
+		const processedString = string.split('src="').map((stringPart, i) => {
+			if (i === 0) {
+				return stringPart;
+			}
+
+			const srcMatches = stringPart.match(/.+?.jpg(?=")/g);
+
+			if (!srcMatches) {
+				return stringPart;
+			}
+
+			const src = srcMatches[0];
+			const importName = `img${i}`;
+
+			imports.push({ name: importName, src });
+
+			const stringPartWithoutSrc = stringPart.substr(stringPart.indexOf('"') + 1);
+
+			// console.log(stringPart, i, imports[imports.length - 1]);
+
+			return `src="\${${importName}}"${stringPartWithoutSrc}`;
+		}).join('');
+		const importStatements = imports.map(
+			(importPart) => `import ${
+				importPart
+					.name
+			} from '${
+				importPart
+					.src
+					.replace(/'/g, '\\\'')
+			}';`,
+		);
+
+		return {
+			processedString,
+			importStatements,
+		};
 	}
 
 	public static plugin(options: {
@@ -359,7 +207,7 @@ class MDX {
 		const filter = createFilter(options.include, options.exclude);
 
 		return {
-			name: 'rollup-plugin-markdown',
+			name: 'rollup-plugin-mdx',
 			transform(code: string, id: string) {
 				if (!filter(id)) {
 					return null;
@@ -371,7 +219,18 @@ class MDX {
 					return null;
 				}
 
-				const html = marked(MDX.preprocess(code));
+				const html = MDX.postprocess(marked(MDX.preprocess(code)));
+				const returnCodeString = (() => {
+					const { processedString, importStatements } = MDX.getImageSrcImports(html);
+
+					return `${
+						importStatements.join('\n')
+					} export default \`<mdx>${
+						processedString
+					}</mdx><style>${
+						STYLE.replace(/[\n\t]/g, '')
+					}</style>\``;
+				})();
 
 				// const exportFromModule = JSON.stringify({
 				// 	html,
@@ -379,8 +238,15 @@ class MDX {
 				// 	path: id,
 				// });
 
+				// console.log(returnCodeString);
+
 				return {
-					code: `export default \`<mdx>${html.replace(/h1/g, 'heading')}</mdx><style>${STYLE.replace(/[\n\t]/g, '')}</style>\``,
+					// code: `export default \`<mdx>${
+					// 	html
+					// }</mdx><style>${
+					// 	STYLE.replace(/[\n\t]/g, '')
+					// }</style>\``,
+					code: returnCodeString,
 					map: { mappings: '' },
 				};
 			},
