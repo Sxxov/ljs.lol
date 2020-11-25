@@ -4,6 +4,7 @@ mdx {
 	/* width: calc(100vw - 17px);
 	padding: var(--padding);
 	box-sizing: border-box; */
+	color: var(--colour-text-secondary);
 }
 
 mdx * {
@@ -17,7 +18,7 @@ mdx > blockquote {
 
 mdx h1,
 mdx h2 {
-    border-bottom: 0px solid grey;
+    border-bottom: 0px solid var(--colour-text-secondary);
 }
 
 mdx h1::after,
@@ -26,7 +27,7 @@ mdx h2::after {
 	display: block;
 	
 	padding-bottom: 16px;
-    border-bottom: 1px solid #eaecef;
+    border-bottom: 1px solid var(--colour-text-primary);
 }
 
 mdx h1,
@@ -75,7 +76,7 @@ mdx ul {
 }
 
 mdx a {
-	color: grey;
+	color: var(--colour-text-secondary);
 
 	display: block;
 
@@ -98,7 +99,7 @@ mdx a::after {
 	display: block;
 	height: 1px;
 	position: absolute;
-	background: grey;
+	background: var(--colour-text-secondary);
 	transition: width 0.3s var(--ease-slow-slow);
 	width: 0;
 }
