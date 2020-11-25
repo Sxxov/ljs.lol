@@ -121,6 +121,8 @@
 
 		padding: var(--is-or-not-padding);
 		box-sizing: border-box;
+
+		transition: var(--transition-background-colour);
 	}
 	
 	container.placeholder {

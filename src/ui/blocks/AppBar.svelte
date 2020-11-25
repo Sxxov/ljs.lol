@@ -136,6 +136,8 @@
 		grid-template-rows: auto;
 
 		background: var(--colour-background);
+
+		transition: var(--transition-background-colour);
 	}
 
 	container.content.right {

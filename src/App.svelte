@@ -60,21 +60,6 @@
 	onMount(() => {
 		ScrollUtility.target = mainDomContent;
 	});
-
-	// const compiledRoutes = (() => {
-	// 	const result = {};
-
-	// 	Object.keys(Routes).forEach((routeKey) => {
-	// 		const routeValue = Routes[routeKey];
-
-	// 		result[routeKey] = wrap({
-	// 			component: routeValue,
-	// 			props: GlobalProps,
-	// 		});
-	// 	});
-
-	// 	return result;
-	// })();
 </script>
 
 <main
@@ -97,5 +82,7 @@
 	main {
 		height: 100%;
 		background: var(--colour-background-primary);
+
+		transition: var(--transition-background-colour);
 	}
 </style>

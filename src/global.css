@@ -38,6 +38,8 @@
 	--box-shadow-inner-inactive:
 		inset 0 0 0 rgba(0, 0, 0, 0.3), 
 		inset 0 0 0 rgba(255, 255, 255, 0.3);
+
+	--transition-background-colour: background-color 0.3s var(--ease-fast-slow);
 }
 
 body {
