@@ -5,10 +5,10 @@ export class CompatiblerResultItem extends Item {
         this.common = {
             BaseSupportVersion: false,
         };
-        this.rendering = {
-            MediaRecorder: false,
-            MediaStream: false,
-        };
+        // rendering = {
+        // 	MediaRecorder: false,
+        // 	MediaStream: false,
+        // };
     }
 }
 export class CompatiblerResultItemFactory extends Factory {

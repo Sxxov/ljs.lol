@@ -4,10 +4,10 @@ export class CompatiblerResultItem extends Item<CompatiblerResultItem> {
 	common = {
 		BaseSupportVersion: false,
 	};
-	rendering = {
-		MediaRecorder: false,
-		MediaStream: false,
-	};
+	// rendering = {
+	// 	MediaRecorder: false,
+	// 	MediaStream: false,
+	// };
 }
 
 export class CompatiblerResultItemFactory extends Factory<CompatiblerResultItemFactory> {

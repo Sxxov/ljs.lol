@@ -10,21 +10,6 @@ export class Compatibler {
             common: {
                 BaseSupportVersion: 'noModule' in document.createElement('script'),
             },
-            rendering: {
-                MediaRecorder: (() => {
-                    try {
-                        // @ts-expect-error
-                        new MediaRecorder(new MediaStream(), {
-                            mimeType: 'video/webm; codecs=vp9',
-                        });
-                        return true;
-                    }
-                    catch (err) {
-                        return false;
-                    }
-                })(),
-                MediaStream: typeof MediaStream !== 'undefined',
-            },
         });
     }
     static throw(result) {
