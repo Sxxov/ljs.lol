@@ -35,5 +35,8 @@
 	component {
 		height: var(--height);
 		width: var(--width);
+
+		user-select: none;
+		pointer-events: none;
 	}
 </style>
