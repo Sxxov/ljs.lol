@@ -3,7 +3,6 @@
 	import { wrap } from 'svelte-spa-router/wrap';
 
 	import Scene from '../blocks/Scene.svelte';
-	import CallToAction from '../components/CallToAction.svelte';
 	import Footer from '../components/Footer.svelte';
 	import PortfolioBrowser from '../components/PortfolioBrowser.svelte';
 	import PortfolioViewer from '../components/portfolioBrowser/PortfolioViewer.svelte';
@@ -13,13 +12,13 @@
 
 	const PREFIX = '/portfolio';
 	const CCTSRoutes = {
-		'/ccts': wrap({
+		'/school/ccts': wrap({
 			component: PortfolioBrowser,
 			props: {
 				keyAndCallbackMap: {
-					1: () => href('/ccts/1'),
-					2: () => href('/ccts/2'),
-					3: () => href('/ccts/3'),
+					1: () => href('/school/ccts/1'),
+					2: () => href('/school/ccts/2'),
+					3: () => href('/school/ccts/3'),
 				},
 				keyAndPreviewImageMap: {
 					1: import('../../raw/img/ccts/1/promo.jpg'),
@@ -28,19 +27,19 @@
 				},
 			},
 		}),
-		'/ccts/1': wrap({
+		'/school/ccts/1': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/ccts/1.mdx'),
 			},
 		}),
-		'/ccts/2': wrap({
+		'/school/ccts/2': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/ccts/2.mdx'),
 			},
 		}),
-		'/ccts/3': wrap({
+		'/school/ccts/3': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/ccts/3.mdx'),
@@ -48,14 +47,14 @@
 		}),
 	};
 	const PhotoRoutes = {
-		'/photo': wrap({
+		'/school/photo': wrap({
 			component: PortfolioBrowser,
 			props: {
 				keyAndCallbackMap: {
-					1: () => href('/photo/1'),
-					2: () => href('/photo/2'),
-					3: () => href('/photo/3'),
-					4: () => href('/photo/4'),
+					1: () => href('/school/photo/1'),
+					2: () => href('/school/photo/2'),
+					3: () => href('/school/photo/3'),
+					4: () => href('/school/photo/4'),
 				},
 				keyAndPreviewImageMap: {
 					1: import('../../raw/img/photo/1/promo.jpg'),
@@ -65,25 +64,25 @@
 				},
 			},
 		}),
-		'/photo/1': wrap({
+		'/school/photo/1': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/photo/1.mdx'),
 			},
 		}),
-		'/photo/2': wrap({
+		'/school/photo/2': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/photo/2.mdx'),
 			},
 		}),
-		'/photo/3': wrap({
+		'/school/photo/3': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/photo/3.mdx'),
 			},
 		}),
-		'/photo/4': wrap({
+		'/school/photo/4': wrap({
 			component: PortfolioViewer,
 			props: {
 				html: import('../../raw/mdx/photo/4.mdx'),
@@ -95,8 +94,17 @@
 			component: PortfolioBrowser,
 			props: {
 				keyAndCallbackMap: {
-					ccts: () => href('/ccts'),
-					photo: () => href('/photo'),
+					'🏫': () => href('/school'),
+					'🏠': () => window.open('https://www.youtube.com/sxxov'),
+				},
+			},
+		}),
+		'/school': wrap({
+			component: PortfolioBrowser,
+			props: {
+				keyAndCallbackMap: {
+					ccts: () => href('/school/ccts'),
+					photo: () => href('/school/photo'),
 				},
 			},
 		}),
