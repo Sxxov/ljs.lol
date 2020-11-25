@@ -51,6 +51,7 @@
 			import('../../../raw/img/collage/42.jpg'),
 			import('../../../raw/img/collage/43.jpg'),
 			import('../../../raw/img/collage/44.jpg'),
+			import('../../../raw/img/collage/45.jpg'),
 		];
 
 		src = CHOICES[Math.floor(Math.random() * (CHOICES.length - 1))];
