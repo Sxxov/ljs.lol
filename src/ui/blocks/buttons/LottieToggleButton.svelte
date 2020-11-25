@@ -4,7 +4,8 @@
 	import Button from '../Button.svelte';
 	import Lottie from '../Lottie.svelte';
 
-	export const isActiveWritable = writable(false);
+	export let isActive = false;
+	export const isActiveWritable = writable(isActive);
 
 	export let src = '';
 	export let animationData = null;
@@ -31,9 +32,9 @@
 		{hoverColour}
 		isText={false}
 		padding='16px 16px'
-		roundness='50px'
+		roundness='--roundness'
 		on:click={() => {
-			isActiveWritable.update((isActive) => !isActive);
+			isActiveWritable.update((value) => !value);
 
 			dispatch('click');
 		}}
