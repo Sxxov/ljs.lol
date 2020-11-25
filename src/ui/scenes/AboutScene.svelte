@@ -48,7 +48,7 @@
 	
 				i was born in KL with an ineptitude for self introductions.
 				
-				the last paragraph i wrote on myself was so bad, it managed to gain sentience just to end the sentence.
+				the last paragraph i wrote on myself was so brain dead, that it managed to gain sentience just to end the sentence.
 				
 				so, starting from the top, 
 				i like many things.
@@ -61,7 +61,7 @@
 	
 				i'm currently doing foundation in design, so that's a clue. 
 				all this started when i discovered the stark world of motion design... by motion design i mean spinning text in Cinema 4D.
-				i just kept doing it and it kept working, teaching me hella things.
+				i just kept doing it and it kept working, what can i say-?
 	
 				a slight problem though
 				<b>i never wanted to do design.</b>
@@ -72,20 +72,22 @@
 					why not combine them?
 				</quote> 
 				...you ask.
-				— ayo patience my man
+				— ayo chill bro; patience my man
 	
 				i did, and they converge at a point — front end design/development
 	
 				as you can see i designed and developed this website, using svelte, typescript, and good old pain.
-				actually basically 100% pain. f*ck you rollup.
+				actually basically 100% pain. f*ck rollup.
 	
 				<quote>
 					why'd you censor that?
 				</quote> 
 				...you ask.
-				because f*ck you, and therefore your kids.
+				because i'm tryna be edgy while having an audience with the sharpness of a UV sphere.
+				
+				thus in conclusion, f*ck you, and therefore your kids.
 	
-				now shoo, go look at my portfolio or something more productive, eg. a wall.
+				now shoo go look at my portfolio or something more productive, eg. a wall.
 			</string>
 		</container>
 		<Collage
