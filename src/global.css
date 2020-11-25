@@ -2,6 +2,7 @@
 @import url('./style/fonts.css');
 @import url('./style/themes.css');
 @import url('./style/utilities.css');
+@import url('./style/core/scrollbar.css');
 
 :root {
 	--ease-fast-slow: cubic-bezier(0.22, 1, 0.36, 1);
