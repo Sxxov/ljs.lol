@@ -4,6 +4,7 @@
 	import { ResponsiveUtility, CSSUtility } from '../../resources/utilities';
 	import Button from './Button.svelte';
 	import Hamburger from './Hamburger.svelte';
+	import DarkModeToggleButton from './buttons/DarkModeToggleButton.svelte';
 
 	// @export
 	export let isActiveWritable = writable(false);
@@ -51,6 +52,7 @@
 		--colour-background: {CSSUtility.parse(backgroundColour)};
 	'
 >
+	<DarkModeToggleButton />
 	{#if !isSalad}
 		<Hamburger
 			{toppings}
@@ -95,6 +97,7 @@
 		height: 100%;
 
 		display: grid;
+		grid-auto-flow: column;
 		align-items: center;
 		justify-items: center;
 	}
