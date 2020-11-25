@@ -1,1 +1,0 @@
-{"version":3,"file":"promo-6cab230d.js","sources":["../src/raw/img/photo/4/promo.jpg"],"sourcesContent":["export default new URL(\"raw/img/photo/4/promo-74891f054d7a90c4.jpg\", import.meta.url).href;"],"names":["URL","import","meta","url","href"],"mappings":"AAAA,MAAe,IAAIA,IAAI,6CAA8CC,OAAOC,KAAKC,KAAKC"}
