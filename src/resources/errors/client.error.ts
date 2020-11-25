@@ -11,7 +11,7 @@ export class ClientError extends LogUtility.mixClass(Error) {
 
 		super(message);
 		this.name = this.constructor.name;
-		Error.captureStackTrace(this, this.constructor);
+		Error.captureStackTrace?.(this, this.constructor);
 
 		LogUtility.error(message, this);
 	}
