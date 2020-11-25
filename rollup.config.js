@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -19,7 +20,6 @@ import mdx from './build/rollup-plugin-mdx';
 
 const imageminGM = new ImageminGM();
 
-// eslint-disable-next-line no-undef
 const production = !process.env.ROLLUP_WATCH;
 const onwarn = (message, warn) => {
 	const ignored = {
