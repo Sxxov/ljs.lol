@@ -37,23 +37,23 @@
 	// };
 	const Paths = [
 		'/',
+		'/portfolio',
 		'/about',
 		'/contact',
-		'/portfolio',
 		'/portfolio/*',
 	];
 	const Routes = {
 		[Paths[0]]: LandingScene,
-		[Paths[1]]: AboutScene,
-		[Paths[2]]: ContactScene,
-		[Paths[3]]: PortfolioScene,
+		[Paths[1]]: PortfolioScene,
+		[Paths[2]]: AboutScene,
+		[Paths[3]]: ContactScene,
 		[Paths[4]]: PortfolioScene,
 	};
 	window.RouteNames = {
 		[Paths[0]]: strings.common.routes.info.HOME,
-		[Paths[1]]: strings.common.routes.info.ABOUT,
-		[Paths[2]]: strings.common.routes.info.CONTACT,
-		[Paths[3]]: strings.common.routes.info.PORTFOLIO,
+		[Paths[1]]: strings.common.routes.info.PORTFOLIO,
+		[Paths[2]]: strings.common.routes.info.ABOUT,
+		[Paths[3]]: strings.common.routes.info.CONTACT,
 	};
 	const { RouteNames } = window;
 
