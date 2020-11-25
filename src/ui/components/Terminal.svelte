@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { push as href } from 'svelte-spa-router';
 	import { writable, get as getWritableValue } from 'svelte/store';
 	import strings from '../../resources/strings';
 	import { CSSUtility } from '../../resources/utilities';
@@ -113,6 +114,31 @@
 				return [() => pushError(error.COMMAND_NOT_RECOGNIZED.replace('%1', 'escape'))];
 			case 'cls':
 				return [() => { outputDomContent.textContent = ''; }];
+			case 'goto':
+				return [() => href(parameters[0])];
+			case 'portfolio':
+				return [() => href('/portfolio')];
+			case 'about':
+				return [() => href('/about')];
+			case 'contact':
+				return [() => href('/contact')];
+			case 'home':
+				return [() => pushInfo('Are we ever really "home"?')];
+			case '?':
+				return [
+					`init			-	instantiates me
+portfolio		-	goes to portfolio page
+about			-	goes to about page
+contact			-	goes to contact page
+home			-	goes home
+hello			-	hello
+goto {page}		-	navigates to that page
+echo {param}		-	makes me say something
+cls			-	clears my memory
+exit			-	attempts to exit
+die			-	nothing to see here
+`,
+				];
 			case '':
 				return [''];
 			default:
