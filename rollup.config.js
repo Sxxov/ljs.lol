@@ -88,6 +88,7 @@ export default () => [{
 			assets: [
 				'src/index.html',
 				'src/raw/pdf',
+				'src/raw/img/favicon',
 			],
 		}),
 
@@ -135,7 +136,9 @@ export default () => [{
 					jpegRecompress: imageminJpegRecompress,
 					GMResize: imageminGM.resize.bind(imageminGM),
 				}
-				: {},
+				: {
+					jpegtran: () => (buffer) => buffer,
+				},
 			jpegRecompress: {
 				accurate: true,
 				target: 0.8,
@@ -146,6 +149,11 @@ export default () => [{
 				width: '>2048',
 				height: undefined,
 			},
+			jpegtran: production
+				? {
+					progressive: true,
+				}
+				: {},
 		}),
 
 		// ignore([
