@@ -142,7 +142,7 @@
 <style>
 	component {
 		display: grid;
-		grid-template-rows: 1fr 0.2fr 1fr;
+		grid-template-rows: 1fr 3rem 1fr;
 		grid-template-columns: auto;
 		padding: var(--padding);
 		box-sizing: border-box;	
