@@ -57,12 +57,12 @@
 	on:outrostart={() => {
 		isSceneOutAnimationRunning.set(true);
 
-		ScrollUtility.disable();
+		// ScrollUtility.disable();
 	}}
 	on:outroend={() => {
 		isSceneOutAnimationRunning.set(false);
 
-		ScrollUtility.enable();
+		// ScrollUtility.enable();
 	}}
 	style='
 		--width: {CSSUtility.parse(width)};
