@@ -17,6 +17,10 @@
 	let svgPlaceholderDomContent = null;
 
 	onMount(async () => {
+		if ($$slots.default) {
+			return;
+		}
+
 		const svgText = (
 			svg
 			|| (
@@ -52,9 +56,11 @@
 				--svg-colour: {svgColour};
 			'
 		>
-			<placeholder
-				bind:this={svgPlaceholderDomContent}
-			/>
+			<slot>
+				<placeholder
+					bind:this={svgPlaceholderDomContent}
+				/>
+			</slot>
 		</container>
 	</Button>
 </component>
@@ -63,6 +69,8 @@
 	container {
 		height: var(--height);
 		width: var(--width);
+
+		fill: var(--svg-colour);
 
 		overflow: hidden;
 	}
