@@ -6,9 +6,8 @@
 
 	export let textColour = 'white';
 	export let textAlign = 'left';
-	export let fontSize = 'min(calc(14vmax + 2rem), 16rem)';
+	export let fontSize = 'min(calc(14vmax + 2rem), 16rem';
 	export let lineHeightMultiplier = 0.6;
-	export let height = 0;
 	export let index = 0;
 
 	const isOutlineProvided = $$slots.outline;
@@ -174,7 +173,6 @@
 		--align-text: {CSSUtility.parse(textAlign)};
 		--font-size: {CSSUtility.parse(fontSize)};
 		--line-height: calc({CSSUtility.parse(fontSize)} * {lineHeightMultiplier});
-		--height: {CSSUtility.parse(height)};
 	'
 >
 	<!-- jank, too bad -->
@@ -200,7 +198,7 @@
 
 <style>
 	component {
-		height: 100%;
+		height: min-content;
 		width: 100%;
 
 		padding: calc(var(--padding) / 2);
