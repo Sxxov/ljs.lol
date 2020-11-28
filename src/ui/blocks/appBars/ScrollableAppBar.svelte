@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import AppBar from '../AppBar.svelte';
 	import { CSSUtility } from '../../../resources/utilities';
@@ -15,6 +16,11 @@
 	let appBar = null;
 	const appBarPaddingWritable = writable(0);
 	const scrollYWritable = writable(0);
+
+	onMount(() => {
+		computedPaddingWritable = appBar.computedPaddingWritable;
+		expandedHeightWritable = appBar.expandedHeightWritable;
+	});
 
 	window.addEventListener(
 		'scroll',
@@ -38,8 +44,6 @@
 		},
 	);
 
-	$: computedPaddingWritable = appBar?.computedPaddingWritable;
-	$: expandedHeightWritable = appBar?.expandedHeightWritable;
 	$: scrolledHeightWritable.set($expandedHeightWritable - $scrollYWritable);
 	$: appBarPaddingWritable.set(`calc(var(--padding) - (${$scrollYWritable}px / 2)) var(--padding)`);
 </script>
