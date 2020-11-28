@@ -61,6 +61,15 @@
 			)
 			+ $computedPaddingWritable * 2,
 		);
+
+		// if the browser isn't done rendering for some reason
+		// *cough* FF
+		// defer to next tick
+		if (!$computedPaddingWritable
+			|| !$baseHeightWritable
+			|| !$expandedHeightWritable) {
+			setTimeout(onResize, 0);
+		}
 	}
 </script>
 
