@@ -22,7 +22,13 @@
 
 	const dispatch = createEventDispatcher();
 	
-	$: document.documentElement.className = document.documentElement.className.replace(/(?<=theme:)(.*?)(?= |$)/, $isDarkWritable ? 'dark' : 'light');
+	$: document.documentElement.className = document.documentElement.className
+		.replace(
+			/(theme:)(.*?)(?= |$)/,
+			$isDarkWritable
+				? '$1dark'
+				: '$1light',
+		);
 	$: localStorage.setItem(IS_DARK_LOCALSTORAGE_KEY, $isDarkWritable);
 </script>
 
