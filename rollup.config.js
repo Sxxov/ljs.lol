@@ -89,6 +89,7 @@ export default () => [{
 				'src/index.html',
 				'src/raw/pdf',
 				'src/raw/img/favicon',
+				'src/_redirects',
 			],
 		}),
 
